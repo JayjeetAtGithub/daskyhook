@@ -8,6 +8,7 @@ for node in ${node_list[@]}
 do	
         ssh $node mkdir -p /etc/ceph
  	scp /etc/ceph/ceph.conf $node:/etc/ceph/ceph.conf
+	scp /etc/ceph/ceph.client.admin.keyring $node:/etc/ceph/ceph.client.admin.keyring
 	ssh $node apt update
 	ssh $node apt install -y ceph-fuse
 	ssh $node mkdir -p /mnt/cephfs
