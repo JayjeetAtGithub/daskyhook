@@ -8,14 +8,14 @@ rm -rf dask
 git clone https://github.com/uccross/dask
 cd dask; git checkout support-skyhook
 pip install --upgrade .[distributed,dataframe]
-pkill -f dask-scheduler || true
+kill `pidof dask-scheduler` || true
 
 for worker in ${workers[@]}
 do 
 	ssh $worker "rm -rf dask"
 	ssh $worker "git clone https://github.com/uccross/dask"
 	ssh $worker "cd dask; git checkout support-skyhook; pip install --upgrade .[distributed,dataframe]"
-	ssh $worker "pkill -f dask-worker || true"
+	ssh $worker "kill  `pidof dask-worker` || true"
 done
 
 # nohup dask-scheduler --interface eno1d1 &
