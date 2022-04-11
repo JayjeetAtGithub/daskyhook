@@ -7,13 +7,15 @@ IFS=',' read -r -a workers <<< "$worker_nodes"
 rm -rf dask
 git clone https://github.com/uccross/dask
 cd dask; git checkout support-skyhook
-pip install --upgrade .
+pip install --upgrade .[distributed,dataframe]
+pkill -f dask-scheduler
 
 for worker in ${workers[@]}
 do 
 	ssh $worker "rm -rf dask"
 	ssh $worker "git clone https://github.com/uccross/dask"
-	ssh $worker "cd dask; git checkout support-skyhook; pip install --upgrade ."
+	ssh $worker "cd dask; git checkout support-skyhook; pip install --upgrade .[distributed,dataframe]"
+	ssh $worker "pkill -f dask-worker"
 done
 
 # nohup dask-scheduler --interface eno1d1 &
