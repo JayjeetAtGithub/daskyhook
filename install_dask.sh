@@ -9,7 +9,7 @@ git clone https://github.com/uccross/dask
 cd dask; git checkout support-skyhook
 pip install --upgrade .[distributed,dataframe]
 p=$(pidof dask-scheduler)
-if [[ -z $p ]]; then
+if [ -z $p ]; then
 	echo "Dask scheduler is not running"
 	exit 1
 else
