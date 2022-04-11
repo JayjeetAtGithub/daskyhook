@@ -8,13 +8,13 @@ rm -rf dask
 git clone https://github.com/uccross/dask
 cd dask; git checkout support-skyhook
 pip install --upgrade .[distributed,dataframe]
-pid = $(pidof dask-scheduler)
-if [[ -z $pid ]]; then
+p=$(pidof dask-scheduler)
+if [[ -z $p ]]; then
 	echo "Dask scheduler is not running"
 	exit 1
 else
 	echo "Dask scheduler is running; killing it"
-	pkill $pid
+	pkill $p
 fi
 
 for worker in ${workers[@]}
