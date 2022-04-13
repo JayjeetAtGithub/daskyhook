@@ -7,12 +7,12 @@ IFS=',' read -r -a node_list <<< "$node_list"
 apt update
 apt install -y wondershaper
 sudo wondershaper clear eno1d1
-sudo wondershaper eno1d1 40960000 40960000
+sudo wondershaper eno1d1 4096000 4096000
 
 for node in ${node_list[@]}
 do	
     ssh $node "apt update"
     ssh $node "apt install -y wondershaper"
     ssh $node "sudo wondershaper clear eno1d1"
-    ssh $node "sudo wondershaper eno1d1 40960000 40960000"
+    ssh $node "sudo wondershaper eno1d1 4096000 4096000"
 done
