@@ -74,7 +74,7 @@ if __name__ == "__main__":
         for latency in data['pq'][selectivity]:
             data_list.append({
                 'format': 'parquet',
-                'selection': selectivity,
+                'selectivity': selectivity,
                 'latency': latency
             })
     
