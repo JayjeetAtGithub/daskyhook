@@ -30,6 +30,7 @@ if __name__ == "__main__":
         s = time.time()
         df.compute()
         e = time.time()
+        print(e-s)
         data['pq']['1'].append(e - s)
 
     df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', filters=[('total_amount', '>', 69)], format='skyhook')
@@ -37,6 +38,7 @@ if __name__ == "__main__":
         s = time.time()
         df.compute()
         e = time.time()
+        print(e-s)
         data['sk']['1'].append(e - s)
 
     df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', filters=[('total_amount', '>', 27)], format='parquet')
@@ -44,6 +46,7 @@ if __name__ == "__main__":
         s = time.time()
         df.compute()
         e = time.time()
+        print(e-s)
         data['pq']['10'].append(e - s)
 
     df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', filters=[('total_amount', '>', 27)], format='skyhook')
@@ -51,6 +54,7 @@ if __name__ == "__main__":
         s = time.time()
         df.compute()
         e = time.time()
+        print(e-s)
         data['sk']['10'].append(e - s)
 
     df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', format='parquet')
@@ -58,6 +62,7 @@ if __name__ == "__main__":
         s = time.time()
         df.compute()
         e = time.time()
+        print(e-s)
         data['pq']['100'].append(e - s)
 
     df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', format='skyhook')
@@ -65,6 +70,7 @@ if __name__ == "__main__":
         s = time.time()
         df.compute()
         e = time.time()
+        print(e-s)
         data['sk']['100'].append(e - s)
 
 
