@@ -7,6 +7,7 @@ import seaborn as sns
 if __name__ == "__main__":
     # connect to the client
     client = Client("tcp://10.10.1.1:8786")
+    print("Connected to Dask Cluster: ", client)
     
     # create the dataset
     data = {
