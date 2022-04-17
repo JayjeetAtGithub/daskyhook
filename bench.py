@@ -3,6 +3,7 @@ import dask.dataframe as dd
 from dask.distributed import Client
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
 
 if __name__ == "__main__":
     # connect to the client
@@ -86,7 +87,7 @@ if __name__ == "__main__":
             })
 
     # plot the graph and save it
-    sns_plot = sns.barplot(x='selectivity', y='latency', hue='format', data=data_list)
+    sns_plot = sns.barplot(x='selectivity', y='latency', hue='format', data=pd.DataFrame(data_list))
     sns_plot.set_title('Query Latency')
     sns_plot.set_xlabel('Selectivity')
     sns_plot.set_ylabel('Latency (s)')
