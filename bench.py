@@ -4,6 +4,7 @@ from dask.distributed import Client
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import gc
 
 if __name__ == "__main__":
     # connect to the client
@@ -12,79 +13,48 @@ if __name__ == "__main__":
     
     # create the dataset
     data = {
-        'pq': {
+        'parquet': {
             '1': list(),
             '10': list(),
             '100': list()
         },
-        'sk': {
+        'skyhook': {
             '1': list(),
             '10': list(),
             '100': list()
         }
     }
+
+    selectivity_map = {
+        '1': [('total_amount', '>', 69)],
+        '10': [('total_amount', '>', 27)],
+        '100': None 
+    }
     
-    # start the queries
-    df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', filters=[('total_amount', '>', 69)], format='parquet')
-    for _ in range(5):
-        s = time.time()
-        df.compute()
-        e = time.time()
-        print("pq 1% : ", e-s)
-        data['pq']['1'].append(e - s)
+    for selectivity, filter in selectivity_map.items():
+        for fmt in ['parquet', 'skyhook']:
+            df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', filters=filter, format=fmt)
+            for _ in range(5):
+                s = time.time()
+                df.compute()
+                e = time.time()
+                print(f'{fmt} {selectivity}% : ', e-s)
+                data[fmt][selectivity].append(e - s)
 
-    df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', filters=[('total_amount', '>', 69)], format='skyhook')
-    for _ in range(5):
-        s = time.time()
-        df.compute()
-        e = time.time()
-        print("sk 1% : ", e-s)
-        data['sk']['1'].append(e - s)
-
-    df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', filters=[('total_amount', '>', 27)], format='parquet')
-    for _ in range(5):
-        s = time.time()
-        df.compute()
-        e = time.time()
-        print("pq 10% : ", e-s)
-        data['pq']['10'].append(e - s)
-
-    df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', filters=[('total_amount', '>', 27)], format='skyhook')
-    for _ in range(5):
-        s = time.time()
-        df.compute()
-        e = time.time()
-        print("sk 10% : ", e-s)
-        data['sk']['10'].append(e - s)
-
-    df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', format='parquet')
-    for _ in range(5):
-        s = time.time()
-        df.compute()
-        e = time.time()
-        print("pq 100% : ", e-s)
-        data['pq']['100'].append(e - s)
-
-    df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', format='skyhook')
-    for _ in range(5):
-        s = time.time()
-        df.compute()
-        e = time.time()
-        print("sk 100% : ", e-s)
-        data['sk']['100'].append(e - s)
+            gc.collect()
 
     # create the dataframe
     data_list = list()
-    for selectivity in data['pq']:
-        for latency in data['pq'][selectivity]:
+    for selectivity in data['parquet']:
+        for latency in data['parquet'][selectivity]:
             data_list.append({
                 'format': 'parquet',
                 'selectivity': selectivity,
                 'latency': latency
             })
     
-    for selectivity in data['sk']:
-        for latency in data['sk'][selectivity]:
+    for selectivity in data['skyhook']:
+        for latency in data['skyhook'][selectivity]:
             data_list.append({
                 'format': 'skyhook',
                 'selectivity': selectivity,
