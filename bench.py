@@ -27,8 +27,8 @@ if __name__ == "__main__":
 
     selectivity_map = {
         '1': [('total_amount', '>', 69)],
-        '10': [('total_amount', '>', 27)],
-        '100': None 
+        '10': [('total_amount', '>', 27)]
+        # '100': None 
     }
     
     for selectivity, filter in selectivity_map.items():
