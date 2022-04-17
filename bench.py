@@ -27,7 +27,9 @@ if __name__ == "__main__":
 
     selectivity_map = {
         '1': [('total_amount', '>', 69)],
-        '10': [('total_amount', '>', 27)]
+        '10': [('total_amount', '>', 27)],
+        '25': [('total_amount', '>', 19)],
+        '50': [('total_amount', '>', 11)]
         # '100': None 
     }
     
