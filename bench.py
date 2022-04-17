@@ -16,11 +16,15 @@ if __name__ == "__main__":
         'parquet': {
             '1': list(),
             '10': list(),
+            '25': list(),
+            '50': list(),
             '100': list()
         },
         'skyhook': {
             '1': list(),
             '10': list(),
+            '25': list(),
+            '50': list(),
             '100': list()
         }
     }
