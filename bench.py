@@ -18,6 +18,9 @@ if __name__ == "__main__":
             '10': list(),
             '25': list(),
             '50': list(),
+            '75': list(),
+            '90': list(),
+            '99': list(),
             '100': list()
         },
         'skyhook': {
@@ -25,6 +28,9 @@ if __name__ == "__main__":
             '10': list(),
             '25': list(),
             '50': list(),
+            '75': list(),
+            '90': list(),
+            '99': list(),
             '100': list()
         }
     }
@@ -33,8 +39,11 @@ if __name__ == "__main__":
         '1': [('total_amount', '>', 69)],
         '10': [('total_amount', '>', 27)],
         '25': [('total_amount', '>', 19)],
-        '50': [('total_amount', '>', 11)]
-        # '100': None 
+        '50': [('total_amount', '>', 11)],
+        '75': [('total_amount', '>', 9)],
+        '90': [('total_amount', '>', 4)],
+        '99': [('total_amount', '>', -200)],
+        '100': None 
     }
     
     for selectivity, filter in selectivity_map.items():
