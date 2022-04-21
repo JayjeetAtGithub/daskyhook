@@ -51,7 +51,7 @@ if __name__ == "__main__":
             df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', filters=filter, format=fmt)
             for _ in range(5):
                 s = time.time()
-                pdf = df.persist()
+                pdf = client.persist(df)
                 e = time.time()
                 print(f'{fmt} {selectivity}% : ', e-s)
                 data[fmt][selectivity].append(e - s)
@@ -85,5 +85,5 @@ if __name__ == "__main__":
     sns_plot.set_xlabel('Selectivity')
     sns_plot.set_ylabel('Latency (s)')
     plt.savefig(f'dask-skyhook-persisted-{time.time()}.pdf')
-    
+
     
