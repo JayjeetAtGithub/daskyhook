@@ -51,11 +51,12 @@ if __name__ == "__main__":
             df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', filters=filter, format=fmt)
             for _ in range(5):
                 s = time.time()
-                df.persist()
+                pdf = df.persist()
                 e = time.time()
                 print(f'{fmt} {selectivity}% : ', e-s)
                 data[fmt][selectivity].append(e - s)
 
+            del pdf
             gc.collect()
 
     # create the dataframe
