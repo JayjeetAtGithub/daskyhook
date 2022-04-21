@@ -78,9 +78,12 @@ if __name__ == "__main__":
             })
 
     # plot the graph and save it
-    sns_plot = sns.barplot(x='selectivity', y='latency', hue='format', data=pd.DataFrame(data_list))
+    res_df = pd.DataFrame(data_list)
+    res_df.to_csv('dask-skyhook-persisted.csv')
+    sns_plot = sns.barplot(x='selectivity', y='latency', hue='format', data=res_df)
     sns_plot.set_title('Query Latency')
     sns_plot.set_xlabel('Selectivity')
     sns_plot.set_ylabel('Latency (s)')
     plt.savefig(f'dask-skyhook-persisted-{time.time()}.pdf')
+    
     
