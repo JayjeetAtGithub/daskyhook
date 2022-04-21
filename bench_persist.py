@@ -56,8 +56,8 @@ if __name__ == "__main__":
                 e = time.time()
                 print(f'{fmt} {selectivity}% : ', e-s)
                 data[fmt][selectivity].append(e - s)
+                del pdf
 
-            del pdf
             gc.collect()
 
     # create the dataframe
