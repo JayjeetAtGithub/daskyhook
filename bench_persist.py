@@ -52,6 +52,7 @@ if __name__ == "__main__":
             for _ in range(5):
                 s = time.time()
                 pdf = df.persist()
+                print(len(pdf))
                 e = time.time()
                 print(f'{fmt} {selectivity}% : ', e-s)
                 data[fmt][selectivity].append(e - s)
