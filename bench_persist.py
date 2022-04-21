@@ -1,4 +1,3 @@
-import imp
 import time
 import dask.dataframe as dd
 from dask.distributed import Client
@@ -6,7 +5,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import gc
-from streamz import Stream
 
 if __name__ == "__main__":
     # connect to the client
@@ -20,6 +18,9 @@ if __name__ == "__main__":
             '10': list(),
             '25': list(),
             '50': list(),
+            '75': list(),
+            '90': list(),
+            '99': list(),
             '100': list()
         },
         'skyhook': {
@@ -27,6 +28,9 @@ if __name__ == "__main__":
             '10': list(),
             '25': list(),
             '50': list(),
+            '75': list(),
+            '90': list(),
+            '99': list(),
             '100': list()
         }
     }
@@ -35,17 +39,19 @@ if __name__ == "__main__":
         '1': [('total_amount', '>', 69)],
         '10': [('total_amount', '>', 27)],
         '25': [('total_amount', '>', 19)],
-        '50': [('total_amount', '>', 11)]
-        # '100': None 
+        '50': [('total_amount', '>', 11)],
+        '75': [('total_amount', '>', 9)],
+        '90': [('total_amount', '>', 4)],
+        '99': [('total_amount', '>', -200)],
+        '100': None 
     }
     
     for selectivity, filter in selectivity_map.items():
         for fmt in ['parquet', 'skyhook']:
-            source = Stream.filenames('/mnt/cephfs/dataset')
-            sdf = (source.map(dd.read_parquet, engine='pyarrow', filters=filter, format=fmt).to_dataframe(example=...)) 
+            df = dd.read_parquet('/mnt/cephfs/dataset', engine='pyarrow', filters=filter, format=fmt)
             for _ in range(5):
                 s = time.time()
-                df.compute()
+                df.persist()
                 e = time.time()
                 print(f'{fmt} {selectivity}% : ', e-s)
                 data[fmt][selectivity].append(e - s)
@@ -75,5 +81,5 @@ if __name__ == "__main__":
     sns_plot.set_title('Query Latency')
     sns_plot.set_xlabel('Selectivity')
     sns_plot.set_ylabel('Latency (s)')
-    plt.savefig(f'dask-skyhook-bench-{time.time()}.pdf')
+    plt.savefig(f'dask-skyhook-persisted-{time.time()}.pdf')
     

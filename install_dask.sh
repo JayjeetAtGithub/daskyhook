@@ -18,5 +18,5 @@ do
 	ssh $worker "cd dask; git checkout support-skyhook; pip install --upgrade .[distributed,dataframe]"
 done
 
-# nohup dask-scheduler --interface ens1f0 &
-# nohup dask-worker --interface ens1f0 tcp://10.10.1.1:8786 &
+# nohup dask-scheduler --interface eno1d1 &
+# nohup dask-worker --interface eno1d1 tcp://10.10.1.1:8786 &
