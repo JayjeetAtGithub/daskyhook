@@ -57,6 +57,7 @@ if __name__ == "__main__":
                 print(f'{fmt} {selectivity}% : ', e-s)
                 data[fmt][selectivity].append(e - s)
                 del pdf
+                time.sleep(2)
 
             gc.collect()
 
