@@ -23,3 +23,4 @@ done
 
 
 # dask-ssh 10.10.1.{1..9} --interface eno1d1 --ssh-username root --memory-limit="60 GiB"
+# nohup dask-ssh 10.10.1.{1..9} --ssh-username root --memory-limit="60GiB" &
