@@ -20,3 +20,6 @@ done
 
 # nohup dask-scheduler --interface eno1d1 &
 # nohup dask-worker --interface eno1d1 tcp://10.10.1.1:8786 &
+
+
+# dask-ssh 10.10.1.{1..9} --interface eno1d1 --ssh-username root --memory-limit="60 GiB"
